@@ -59,7 +59,14 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		}
-  	}
+  	}, 
+	screens: {
+		'xs': '400px', // 👈 novo breakpoint para celulares pequenos
+      'sm': '540px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+	}
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
