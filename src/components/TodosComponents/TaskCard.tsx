@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -19,7 +19,22 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
     const mounted = useIsMounted();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [tempText, setTempText] = useState(task.title);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // modal editing
+    const [isInlineEditing, setIsInlineEditing] = useState(false); // local inline edit
+    const cardRef = useRef<HTMLDivElement | null>(null);
+
+    const handleDialogOpenChange = (open: boolean) => {
+        setIsDialogOpen(open);
+        if (open) {
+            // opening dialog: initialize temp text and ensure modal edit mode is off
+            setTempText(task.title);
+            setIsEditing(false);
+        } else {
+            // closing dialog (including clicking outside) -> discard unsaved modal edits
+            setTempText(task.title);
+            setIsEditing(false);
+        }
+    };
 
     const handleSave = () => {
         onUpdate({ ...task, title: tempText });
@@ -27,50 +42,105 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
         setIsDialogOpen(false);
     };
 
+    const cancelInlineEdit = () => {
+        setTempText(task.title);
+        setIsInlineEditing(false);
+        if (task.editing) onUpdate({ ...task, editing: false });
+    };
+
+    useEffect(() => {
+        setTempText(task.title);
+    }, [task.title]);
+
+    // verifica se clicou fora do card para fechar e nao editar
+    useEffect(() => {
+        if (!isInlineEditing) return;
+
+        const handleOutside = (e: MouseEvent) => {
+            const target = e.target as Node | null;
+            if (cardRef.current && target && !cardRef.current.contains(target)) {
+                cancelInlineEdit();
+            }
+        };
+
+        document.addEventListener('mousedown', handleOutside);
+        return () => document.removeEventListener('mousedown', handleOutside);
+    }, [isInlineEditing, task, onUpdate]);
+
     return (
         <div
+            ref={cardRef}
             key={task.id}
-            className={`p-3 px-4 bg-[#c9c1b1] dark:bg-[#243649] border border-[#cab78f] dark:border-neutral-600 rounded-xl flex gap-2 transition-all duration-200 ${
-                task.editing ? 'border-2 border-[#bb9448] scale-105  rounded-md p-2' : ''
+            className={`p-3 px-4 bg-[#c9c1b1] dark:bg-[#243649] border border-[#cab78f] dark:border-neutral-600 rounded-xl flex gap-2 transition-all  ${
+                task.editing ? 'border-4 border-[#bb9448]   rounded-md ' : ''
             }`}
         >
             <div className="flex-1 flex flex-col justify-between">
-                <div className="">
-                    <Textarea
-                        value={task.title}
-                        readOnly={!task.editing}
-                        onChange={e => onUpdate({ ...task, title: e.target.value })}
-                        className={`resize-none bg-transparent py-2  no-scrollbar border-transparent text-stone-700 dark:text-neutral-200 focus-visible:ring-0 font-bold ${
-                            task.editing ? 'border border-neutral-500 rounded-md p-2' : ''
-                        }`}
-                    />
-                </div>
-                <div className="flex mt-4 gap-4">
+                <div>
+                    {/* se nao estiver no modo de edicao, mostra um container sem scroll.
+                        se estiver no modo edicao, usa o textarea para modificar. */}
                     {task.editing ? (
-                        <Button
-                            className="w-16 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-xs hover:bg-[#6d542e] font-bold"
-                            onClick={() => onUpdate({ ...task, editing: false })}
+                        <Textarea
+                            value={tempText}
+                            onChange={e => setTempText(e.target.value)}
+                            className="resize-none bg-transparent  xs:py-2 no-scrollbar border border-neutral-500 rounded-md p-2 text-stone-700 dark:text-neutral-200 focus-visible:ring-0 font-bold"
+                        />
+                    ) : (
+                        <div
+                            className="bg-transparent text-xs xs:text-sm font-bold w-60 xs:w-[350px] text-stone-700 dark:text-neutral-200 whitespace-pre-wrap overflow-hidden text-ellipsis"
+                            style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical'
+                            }}
                         >
-                            Salvar
-                        </Button>
+                            {task.title}
+                        </div>
+                    )}
+                </div>
+                <div className="flex mt-4 gap-2 items-center">
+                    {task.editing ? (
+                        <>
+                            <Button
+                                className=" w-12 xs:w-16 h-6 xs:h-9 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#6d542e] font-bold"
+                                onClick={() => {
+                                    onUpdate({ ...task, title: tempText, editing: false });
+                                    setIsInlineEditing(false);
+                                }}
+                            >
+                                Salvar
+                            </Button>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    cancelInlineEdit();
+                                }}
+                            >
+                                Cancelar
+                            </Button>
+                        </>
                     ) : (
                         <Button
-                            className="w-16 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-xs hover:bg-[#6d542e] font-bold"
-                            onClick={() => onUpdate({ ...task, editing: true })}
+                            className="w-12  xs:w-16 h-6 xs:h-9 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#6d542e] font-bold"
+                            onClick={() => {
+                                setTempText(task.title);
+                                setIsInlineEditing(true);
+                                onUpdate({ ...task, editing: true });
+                            }}
                         >
                             Editar
                         </Button>
                     )}
 
-                    <Button className="w-16 bg-red-900/80 transition-all font-bold text-xs hover:bg-red-800 hover:scale-105" onClick={() => onDelete(task.id)}>
+                    <Button className="w-12 xs:w-16 h-6 xs:h-9 bg-red-900/80 transition-all font-bold text-[9px] xs:text-xs hover:bg-red-800 hover:scale-105" onClick={() => onDelete(task.id)}>
                         Remover
                     </Button>
 
                     {/* Botão Ver completo */}
-                    {task.title.length > 100 && ( // Exibe o botão se o texto for longo
+                    {task.title.length > 90 && (
                         <Button
                             variant="ghost"
-                            className="text-xs hover:scale-105 transition-all dark:bg-transparent hover:text-white hover:bg-[#a3876070] dark:hover:bg-[#41658b6b]"
+                            className=" w-[70px] xs:w-24 h-6 xs:h-9  text-[9px] xs:text-xs hover:scale-105 transition-all dark:bg-transparent hover:text-white hover:bg-[#a3876070] dark:hover:bg-[#41658b6b]"
                             onClick={() => setIsDialogOpen(true)}
                         >
                             Ver completo
@@ -79,9 +149,9 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
                 </div>
             </div>
 
-            <div className="flex flex-col justify-evenly items-center">
+            <div className="flex flex-col justify-evenly items-center gap-2">
                 <Select value={task.status} disabled={!task.editing} onValueChange={val => onUpdate({ ...task, status: val })}>
-                    <SelectTrigger className={`w-[96px] font-black text-xs text-neutral-100 bg-white ${getStatusColor(task.status)}`}>
+                    <SelectTrigger className={` w-20 xs:w-[96px] h-6 xs:h-8 font-black  text-[9px] xs:text-xs text-neutral-100 bg-white ${getStatusColor(task.status)}`}>
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -92,36 +162,46 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                <p className="text-neutral-500 dark:text-neutral-400 text-xs" suppressHydrationWarning>
+                <p className="text-neutral-500 dark:text-neutral-400 text-[8px] xs:text-xs" suppressHydrationWarning>
                     {mounted ? task.id : null}
                 </p>
             </div>
 
             {/* Modal */}
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="max-w-lg bg-neutral-100 dark:bg-neutral-800">
+            <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
+                <DialogContent className=" h-3/5 xs:h-3/6 flex flex-col justify-center max-w-80 xs:max-w-lg bg-[#c9c1b1] dark:bg-[#243649] rounded-lg">
                     <DialogHeader>
-                        <DialogTitle className="text-lg font-bold text-neutral-900 dark:text-neutral-100">Detalhes da tarefa</DialogTitle>
+                        <DialogTitle className="text-lg text-start font-bold text-neutral-900 dark:text-neutral-100 border-b">Detalhes da tarefa</DialogTitle>
                     </DialogHeader>
 
-                    {isEditing ? (
-                        <Textarea
-                            value={tempText}
-                            onChange={e => setTempText(e.target.value)}
-                            className="resize-none mt-2 bg-white dark:bg-neutral-700 border dark:border-neutral-600 p-2 rounded-md text-neutral-900 dark:text-neutral-100"
-                            rows={8}
-                        />
-                    ) : (
-                        <p className="mt-2 text-neutral-800 dark:text-neutral-200 whitespace-pre-wrap">{tempText}</p>
-                    )}
-
-                    <DialogFooter className="flex justify-end gap-2 mt-4">
+                    {/* Área de conteúdo com altura máxima e scroll interno */}
+                    <div className={`mt-2 overflow-auto px-1`}>
+                        {isEditing ? (
+                            <Textarea
+                                value={tempText}
+                                onChange={e => setTempText(e.target.value)}
+                                className={`resize-none max-h-[350px]  xs:max-h-[95%] overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-lg font-semibold mt-2 border border-black p-2 rounded-md  text-neutral-900 dark:text-neutral-100 `}
+                                rows={25}
+                            />
+                        ) : (
+                            <p className="mt-2 h-[350px] xs:max-h-[95%] n p-2  text-sm text-neutral-800 dark:text-neutral-200 whitespace-pre-wrap overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-lg">
+                                {tempText}
+                            </p>
+                        )}
+                    </div>
+                    <DialogFooter className="flex flex-row items-center justify-center   gap-2 mt-4">
                         {isEditing ? (
                             <>
                                 <Button className="bg-[#a38760] dark:bg-[#334e6b]  hover:bg-[#6d542e] dark:hover:bg-[#41658b] text-white font-bold" onClick={handleSave}>
                                     Salvar
                                 </Button>
-                                <Button variant="outline" onClick={() => setIsEditing(false)}>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => {
+                                        setIsEditing(false);
+                                        setTempText(task.title);
+                                    }}
+                                >
                                     Cancelar
                                 </Button>
                             </>

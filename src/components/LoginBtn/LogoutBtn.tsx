@@ -22,7 +22,7 @@ export const LogoutBtn = () => {
         router.push('/login');
     };
     return (
-        <Button onClick={handleLogout} size="icon" className="w-16 h-10 md:h-8 bg-red-700/50 hover:bg-red-700 hover:font-bold transition-all duration-500 hover:w-32 ">
+        <Button onClick={handleLogout} size="icon" className="w-16 h-8  bg-red-700/50 hover:bg-red-700 hover:font-bold transition-all duration-500 hover:w-20 ">
             Sair
         </Button>
     );

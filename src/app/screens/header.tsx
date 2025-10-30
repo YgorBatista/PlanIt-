@@ -8,7 +8,7 @@ const Header = () => {
 
     const isTodosPage = pathname === '/todos';
     return (
-        <div className=" bg-[#968b74] dark:bg-[#2f4257] w-full h-16 sm:h-14 flex font-nunito  justify-between">
+        <div className=" bg-[#968b74] dark:bg-[#2f4257] w-full h-12  flex font-nunito  justify-between">
             <div className="  flex w-[95%] justify-between items-center mx-auto">
                 <div>
                     <Image />

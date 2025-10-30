@@ -23,7 +23,7 @@ const Page = () => {
     const [filterStatus, setFilterstatus] = useState('');
 
     const filteredTasks = filterStatus === '' ? tasks : tasks.filter(t => t.status === filterStatus);
-    const { currentItems: currentTasks, currentPage, end, setCurrentPage, start, totalPages } = usePagination(filteredTasks, 5);
+    const { currentItems: currentTasks, currentPage, end, setCurrentPage, start, totalPages, goNext, goPrev } = usePagination(filteredTasks, 5);
 
     const totalTasks = tasks.length;
     const pendenteTasks = tasks.filter(t => t.status === 'pendente').length;
@@ -69,44 +69,39 @@ const Page = () => {
 
                     <TaskFilters concluidoTasks={concluidoTasks} fazendoTasks={fazendoTasks} pendenteTasks={pendenteTasks} filterStatus={filterStatus} onFilterChange={handleFilterChange} />
                 </div>
-                {/* renderizar tarefas  */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentPage}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        className="  flex flex-col font-tinos -mt-12 gap-2"
-                    >
-                        {currentTasks.map(task => (
-                            <motion.div key={task.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
-                                <TaskCard
-                                    task={task}
-                                    onUpdate={updated => setTasks(prev => prev.map(t => (t.id === updated.id ? updated : t)))}
-                                    onDelete={removeTask}
-                                    getStatusColor={getStatusColor}
-                                />
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </AnimatePresence>
+
+                <div>
+                    {/* renderizar tarefas  */}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentPage}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                            className="  flex flex-col font-tinos sm:-mt-12 gap-4"
+                        >
+                            {currentTasks.map(task => (
+                                <motion.div key={task.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+                                    <TaskCard
+                                        task={task}
+                                        onUpdate={updated => setTasks(prev => prev.map(t => (t.id === updated.id ? updated : t)))}
+                                        onDelete={removeTask}
+                                        getStatusColor={getStatusColor}
+                                    />
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* navegação entre as tarefas  */}
+                    <TaskPagination start={start} end={end} total={filteredTasks.length} currentPage={currentPage} totalPages={totalPages} onPrev={goPrev} onNext={goNext} />
+                </div>
 
                 {/* input para adicionar tarefas  */}
                 <TaskInput title={title} status={status} ref={inputRef} onTitleChange={setTitle} onStatusChange={setStatus} onAddTask={addTask} hasTasks={currentTasks.length > 0} />
             </div>
             <div>
-                {/* navegação entre as tarefas  */}
-                <TaskPagination
-                    start={start}
-                    end={end}
-                    total={filteredTasks.length}
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPrev={() => setCurrentPage(p => Math.max(p - 1, 0))}
-                    onNext={() => setCurrentPage(p => Math.max(p + 1, totalPages - 1))}
-                />
-
                 <Footer />
             </div>
         </div>

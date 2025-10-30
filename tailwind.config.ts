@@ -61,7 +61,7 @@ export default {
   		}
   	}, 
 	screens: {
-		'xs': '400px', // 👈 novo breakpoint para celulares pequenos
+		'xs': '400px', //  breakpoint para celulares pequenos
       'sm': '540px',
       'md': '768px',
       'lg': '1024px',

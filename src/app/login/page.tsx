@@ -72,7 +72,7 @@ const Page = () => {
 
                     {/* LOGIN */}
                     <div className=" h-full  rounded-md  bg-[#9c8862] dark:bg-[#8495aa] lg:rounded-e-lg  md:p-10 flex flex-col  md:gap-8 items-center justify-around  text-neutral-200   lg:flex-1">
-                        <div className=" text-center">
+                        <div className=" text-center pt-4">
                             <h1 className="font-black  text-lg lg:text-2xl ">Crie uma conta</h1>
                             <span className="text-neutral-200 dark:text-neutral-300 font-bold text-center  text-[11px] lg:text-sm">use seu E-mail para registrar </span>
                         </div>
@@ -82,7 +82,7 @@ const Page = () => {
                                 <input className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600 " {...register('name')} />
 
                                 <span className="min-h-7 block">
-                                    <p className={`text-red-900 text-lg dark:text-red-800 pt-2  transition-opacity duration-700 ${errors.name ? 'opacity-100' : 'opacity-0'}`}>
+                                    <p className={`text-red-900 dark:text-red-800 text-xs xs:text-lg pt-2  transition-opacity duration-700 ${errors.name ? 'opacity-100' : 'opacity-0'}`}>
                                         {errors.name?.message as string}
                                     </p>
                                 </span>
@@ -92,7 +92,7 @@ const Page = () => {
                                 <input className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600" {...register('email')} />
 
                                 <span className="block min-h-7">
-                                    <p className={`text-red-900 dark:text-red-800 pt-2 text-lg transition-opacity duration-700 ${errors.email ? 'opacity-100' : 'opacity-0'}`}>
+                                    <p className={`text-red-900 dark:text-red-800 pt-2 text-xs xs:text-lg transition-opacity duration-700 ${errors.email ? 'opacity-100' : 'opacity-0'}`}>
                                         {errors.email?.message as string}
                                     </p>
                                 </span>
@@ -102,7 +102,7 @@ const Page = () => {
                                 <input type="password" className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600" {...register('password')} />
 
                                 <span className="block min-h-7">
-                                    <p className={`text-red-900 text-lg dark:text-red-800 pt-2 transition-opacity fade-out duration-700 ${errors.password ? 'opacity-100' : 'opacity-0'} `}>
+                                    <p className={`text-red-900 dark:text-red-800 text-xs xs:text-lg  pt-2 transition-opacity fade-out duration-700 ${errors.password ? 'opacity-100' : 'opacity-0'} `}>
                                         {errors.password?.message as string}
                                     </p>
                                 </span>
@@ -114,7 +114,7 @@ const Page = () => {
                                 className=" bg-neutral-200 border border-neutral-300    text-neutral-800 dark:text-neutral-800  hover:bg-[#66512b] dark:hover:bg-[#2c3d4b] hover:text-neutral-100 dark:hover:text-neutral-100  font-black w-24 hover:w-32 p-2 my-6 rounded-md transition-all duration-300 cursor-pointer"
                             />
                         </form>
-                        <div className="flex flex-col gap-2 md:gap-3">
+                        <div className="flex flex-col pb-4 gap-2 md:gap-3">
                             <GoogleBtn />
                             <GitHubBtn />
                         </div>
