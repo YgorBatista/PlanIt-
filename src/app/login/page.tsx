@@ -3,13 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Header from '../screens/header';
-import Footer from '../screens/footer';
+import Header from '../base/header';
+import Footer from '../base/footer';
 import { GoogleBtn } from '../../components/LoginBtn/GoogleBtn';
 import { useTasks } from '@/app/hooks/useTasks';
 import { motion } from 'framer-motion';
 import { GitHubBtn } from '../../components/LoginBtn/GitHubBtn';
-
+import Image from '@/components/Image';
 const formSchema = z.object({
     name: z.string().min(2, 'O nome deve ter mais de 2 caracteres'),
     email: z.email('Formato inválido').min(1).max(50),
@@ -71,15 +71,20 @@ const Page = () => {
                     </div>
 
                     {/* LOGIN */}
-                    <div className=" h-full  rounded-md  bg-[#9c8862] dark:bg-[#8495aa] lg:rounded-e-lg  md:p-10 flex flex-col  md:gap-8 items-center justify-around  text-neutral-200   lg:flex-1">
-                        <div className=" text-center pt-4">
+                    <div className=" h-full relative rounded-md  bg-[#9c8862] dark:bg-[#8495aa] lg:rounded-e-lg  md:p-10 flex flex-col  md:gap-2 items-center justify-around  text-neutral-200   lg:flex-1">
+                        <div className="absolute flex justify-center items-center top-1 left-1 ">
+                            <div className="opacity-50">
+                                <Image />
+                            </div>
+                        </div>
+                        <div className=" text-center pt-4 ">
                             <h1 className="font-black  text-lg lg:text-2xl ">Crie uma conta</h1>
                             <span className="text-neutral-200 dark:text-neutral-300 font-bold text-center  text-[11px] lg:text-sm">use seu E-mail para registrar </span>
                         </div>
-                        <form onSubmit={handleSubmit(handleSignUpForm)} className="flex flex-col items-center  w-full  md:w-[500px]  lg:gap-8">
-                            <div className=" flex flex-col  w-full px-4">
+                        <form onSubmit={handleSubmit(handleSignUpForm)} className="flex flex-col items-center  w-full  md:w-[500px]  lg:gap-2">
+                            <div className="flex flex-col  w-full px-4">
                                 <label className=" mr-4 font-black  xs:text-sm sm:text-lg lg:text-base ">Nome: </label>
-                                <input className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600 " {...register('name')} />
+                                <input className="bg-neutral-200 p-2 w-80 xs:w-full rounded-md outline-none  text-neutral-600 " {...register('name')} />
 
                                 <span className="min-h-7 block">
                                     <p className={`text-red-900 dark:text-red-800 text-xs xs:text-lg pt-2  transition-opacity duration-700 ${errors.name ? 'opacity-100' : 'opacity-0'}`}>
@@ -87,9 +92,9 @@ const Page = () => {
                                     </p>
                                 </span>
                             </div>
-                            <div className=" flex flex-col w-full px-4">
+                            <div className="  flex flex-col w-full px-4">
                                 <label className="mr-4 font-black xs:text-sm sm:text-lg lg:text-base "> E-mail:</label>
-                                <input className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600" {...register('email')} />
+                                <input className="bg-neutral-200 p-2 w-80 xs:w-full rounded-md outline-none  text-neutral-600" {...register('email')} />
 
                                 <span className="block min-h-7">
                                     <p className={`text-red-900 dark:text-red-800 pt-2 text-xs xs:text-lg transition-opacity duration-700 ${errors.email ? 'opacity-100' : 'opacity-0'}`}>
@@ -99,7 +104,7 @@ const Page = () => {
                             </div>
                             <div className=" flex flex-col w-full px-4">
                                 <label className="mr-4 font-black  xs:text-sm sm:text-lg lg:text-base ">Senha: </label>
-                                <input type="password" className="bg-neutral-200 p-2 w-80 sm:w-full rounded-md outline-none  text-neutral-600" {...register('password')} />
+                                <input type="password" className="bg-neutral-200 p-2 w-80 xs:w-full rounded-md outline-none  text-neutral-600" {...register('password')} />
 
                                 <span className="block min-h-7">
                                     <p className={`text-red-900 dark:text-red-800 text-xs xs:text-lg  pt-2 transition-opacity fade-out duration-700 ${errors.password ? 'opacity-100' : 'opacity-0'} `}>

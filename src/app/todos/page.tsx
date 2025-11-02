@@ -1,6 +1,6 @@
 'use client';
-import Footer from '../screens/footer';
-import Header from '../screens/header';
+import Footer from '../base/footer';
+import Header from '../base/header';
 import { useState } from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { usePagination } from '../hooks/usePagination';
