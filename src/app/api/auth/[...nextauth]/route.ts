@@ -14,7 +14,16 @@ const handler = NextAuth({
         })
 
         
-    ]
+    ],
+    secret: process.env.NEXTAUTH_SECRET,
 })
 
-export { handler as GET , handler as POST}
+export default ( req:any, res:any) => {
+
+if (process.env.VERCEL_URL){
+    process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`
+
+}
+return NextAuth(req, res, handler)
+
+}
