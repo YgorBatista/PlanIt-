@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { GitHubBtn } from '../../components/LoginBtn/GitHubBtn';
 import Image from '@/components/Image';
 const formSchema = z.object({
-    name: z.string().min(2, 'O nome deve ter mais de 2 caracteres'),
+    name: z.string().min(2, 'O nome deve ter mais de 2 caracteres').max(20, 'O nome dev ter no  máximo 20 caracteres.'),
     email: z.email('Formato inválido').min(1).max(50),
     password: z
         .string()
