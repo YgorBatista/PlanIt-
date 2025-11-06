@@ -54,13 +54,20 @@ export function useTasks() {
   }, [tasks]);
 
 const addTask = () => {
-  if (!title || !status) return;
+  // Rejeita titles vazios ou compostos apenas por espaços
+  const trimmedTitle = title.trim();
+  if (!trimmedTitle || !status) return;
+
   const now = new Date();
   const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second:'2-digit' });
   const dia = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-  const id = `${dia} - ${hora}`; 
-  const newTask = { id, title, status, editing: false };
+  const id = `${dia} - ${hora}`;
+
+  // Use o título 'trimado' para evitar tarefas com apenas espaços
+  const newTask = { id, title: trimmedTitle, status, editing: false };
   setTasks(prev => [newTask, ...prev]);
+
+  // Limpa campos
   setTitle('');
   setStatus('');
 };

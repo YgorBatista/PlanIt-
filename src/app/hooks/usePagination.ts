@@ -23,10 +23,9 @@ export function usePagination<T>(items: T[], limit:number){
       const goNext = () => setCurrentPage(p => Math.min(p + 1, totalPages - 1));
   const goPrev = () => setCurrentPage(p => Math.max(p - 1, 0));
 
-    const start = items.length === 0 ? 0 : startIndex + 1;
-  const end = endIndex;
-    return{
-        currentPage, setCurrentPage, totalPages, start, end, currentItems,goNext, goPrev
-
-    }
+  const start = items.length === 0 ? 0 : startIndex + 1;
+  const end = items.length === 0 ? 0 : Math.min(endIndex, items.length);
+  return {
+    currentPage, setCurrentPage, totalPages, start, end, currentItems, goNext, goPrev
+  }
 }

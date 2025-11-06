@@ -31,5 +31,5 @@ export default function NameUser() {
         };
     }, [session]);
 
-    return <div className="font-black ml-2 uppercase">{name}!</div>;
+    return <div className="font-bold  ml-2 uppercase">{name}!</div>;
 }

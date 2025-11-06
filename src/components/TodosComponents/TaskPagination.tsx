@@ -11,11 +11,11 @@ type TaskPaginationProps = {
 };
 export default function TaskPagination({ currentPage, totalPages, end, start, total, onPrev, onNext }: TaskPaginationProps) {
     return (
-        <div className="flex flex-col mt-4 ">
-            <div className="flex items-center justify-center gap-2 ">
+        <div className="flex flex-col mt-4  ">
+            <div className="flex items-center justify-center gap-2 transition-all duration-300 ">
                 <div className="flex items-center gap-3 ">
                     <Button
-                        className="rounded-full font-bold bg-[#bda886] hover:bg-[#9c865d] dark:bg-[#334e6b] dark:hover:bg-[#577799] w-8 h-8"
+                        className="rounded-full font-bold bg-gray-300 hover:bg-gray-400 dark:bg-[#334e6b] dark:hover:bg-[#577799] text-xs w-8 h-8"
                         variant="outline"
                         onClick={onPrev}
                         disabled={currentPage === 0}
@@ -27,7 +27,7 @@ export default function TaskPagination({ currentPage, totalPages, end, start, to
                     </span>
 
                     <Button
-                        className="rounded-full font-bold bg-[#bda886]  hover:bg-[#9c865d] dark:bg-[#334e6b]  dark:hover:bg-[#577799]  dark:text-white w-8 h-8"
+                        className="rounded-full font-bold bg-gray-300 hover:bg-gray-400 dark:bg-[#334e6b]  dark:hover:bg-[#577799] text-xs  w-8 h-8"
                         variant="outline"
                         onClick={onNext}
                         disabled={currentPage >= totalPages - 1}

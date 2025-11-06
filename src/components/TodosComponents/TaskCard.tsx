@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { TaskItem } from '@/app/hooks/useTasks';
 import { useIsMounted } from '@/app/hooks/useIsMounted';
@@ -26,7 +25,7 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
     const handleDialogOpenChange = (open: boolean) => {
         setIsDialogOpen(open);
         if (open) {
-            // opening dialog: initialize temp text and ensure modal edit mode is off
+            // abrindo
             setTempText(task.title);
             setTempStatus(task.status);
             setIsEditing(false);
@@ -47,34 +46,25 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
         <div
             ref={cardRef}
             key={task.id}
-            className={`py-2 px-2 bg-[#c9c1b1] dark:bg-[#243649] border border-[#cab78f] dark:border-neutral-600  rounded-xl flex justify-between transition-all  ${
-                task.editing ? 'border-4 border-[#bb9448]   rounded-md ' : ''
-            }`}
+            className={`py-2 px-2 shadow-md bg-gray-300 dark:bg-[#24364950] border border-[#b1b9c0] dark:border-neutral-600  rounded-sm flex justify-between transition-all `}
         >
-            <div className=" flex flex-col w-[70%] justify-between">
+            <div className=" flex flex-col p-1  w-[66%] gap-4 justify-between">
                 <div>
                     {/* se nao estiver no modo de edicao, mostra um container sem scroll.
                         se estiver no modo edicao, usa o textarea para modificar. */}
-                    {task.editing ? (
-                        <Textarea
-                            value={tempText}
-                            onChange={e => setTempText(e.target.value)}
-                            className="resize-none h- bg-transparent  xs:py-2 no-scrollbar border border-neutral-500 rounded-md px-2 text-stone-700 dark:text-neutral-200 font-bold"
-                        />
-                    ) : (
-                        <div
-                            className="bg-transparent text-xs font-bold w-60 xs:w-[100%] text-stone-700 dark:text-neutral-200 whitespace-pre-wrap overflow-hidden text-ellipsis"
-                            style={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: 'vertical'
-                            }}
-                        >
-                            {task.title}
-                        </div>
-                    )}
+
+                    <div
+                        className="bg-transparent text-xs font-bold w-60  xs:w-[100%] text-stone-700 dark:text-neutral-200 whitespace-pre-wrap overflow-hidden text-ellipsis"
+                        style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical'
+                        }}
+                    >
+                        {task.title}
+                    </div>
                 </div>
-                <div className="flex mt-8 gap-2 items-center">
+                <div className="flex gap-2  items-center">
                     {/* Esconde Editar/Salvar/Cancelar se tiver "Ver completo" */}
                     {task.title.length <= 90 && (
                         <>
@@ -92,7 +82,7 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
                                 </>
                             ) : (
                                 <Button
-                                    className="w-12  xs:w-16 h-6 xs:h-9 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#6d542e] font-bold"
+                                    className="w-12  xs:w-16 h-6 xs:h-9 bg-[#7ca0c7] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#7da7d4] font-bold"
                                     onClick={() => {
                                         // Open modal directly in edit mode instead of inline edit
                                         setTempText(task.title);
@@ -111,7 +101,7 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
                     {task.title.length > 90 && (
                         <Button
                             variant="ghost"
-                            className=" w-[70px] xs:w-24 h-6 xs:h-9  text-[9px] xs:text-xs hover:scale-105 transition-all dark:bg-transparent hover:text-white hover:bg-[#a3876070] dark:hover:bg-[#41658b6b]"
+                            className=" w-[70px] xs:w-24 h-6 xs:h-9  text-[9px] xs:text-xs hover:scale-105 transition-all dark:bg-transparent hover:text-white hover:bg-[#7f9ab8b2] dark:hover:bg-[#41658b6b]"
                             onClick={() => setIsDialogOpen(true)}
                         >
                             Ver completo

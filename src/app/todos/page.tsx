@@ -49,17 +49,17 @@ const Page = () => {
     };
 
     return (
-        <div className="w-screen min-h-screen font-open_sans bg-[#eee9df] dark:bg-[#1b2632] flex flex-col sm:justify-between ">
+        <div className="w-screen min-h-screen  bg-gray-200 dark:bg-[#1b2632] flex flex-col sm:justify-between transition-colors duration-500">
             <Header />
             <div className="flex h-5/6 flex-1 px-2 container mx-auto flex-col w-screen justify-between">
                 <div className="sm:py-8 mb-8">
-                    <div className=" flex container font-bold flex-col gap-2">
-                        <h1 className=" text-xl sm:text-3xl flex text-[#2c3d4b] dark:text-neutral-300 px-3 mt-14 ">
+                    <div className=" flex container font-bold flex-col text-[#2c3d4b] gap-2">
+                        <h1 className=" text-xl sm:text-3xl flex  dark:text-neutral-300 px-3 mt-14 ">
                             Olá, <NameUser />
                         </h1>
                         <h2
                             onClick={() => setFilterstatus('')}
-                            className="w-fit text-left px-1 ml-3  sm:text-lg  text-neutral-600  hover:text-neutral-200 dark:hover:text-neutral-700 hover:bg-neutral-700 dark:hover:bg-neutral-300 dark:text-neutral-300 font-semibold transition-all duration-300 cursor-pointer rounded-xl"
+                            className="w-fit text-left px-1 ml-3  sm:text-lg hover:px-4  hover:text-neutral-200 dark:hover:text-[#2c3d4b] hover:bg-[#2c3d4b] dark:hover:bg-neutral-300 dark:text-neutral-300 font-semibold transition-all duration-300 cursor-pointer rounded-xl"
                         >
                             {totalTasks} tarefa{totalTasks > 1 ? 's' : ''} cadastrada{totalTasks > 1 ? 's' : ''}
                         </h2>
@@ -95,11 +95,16 @@ const Page = () => {
                     </AnimatePresence>
 
                     {/* navegação entre as tarefas  */}
-                    <TaskPagination start={start} end={end} total={filteredTasks.length} currentPage={currentPage} totalPages={totalPages} onPrev={goPrev} onNext={goNext} />
+                    {totalPages > 1 && <TaskPagination start={start} end={end} total={filteredTasks.length} currentPage={currentPage} totalPages={totalPages} onPrev={goPrev} onNext={goNext} />}
                 </div>
 
                 {/* input para adicionar tarefas  */}
-                <TaskInput title={title} status={status} ref={inputRef} onTitleChange={setTitle} onStatusChange={setStatus} onAddTask={addTask} hasTasks={currentTasks.length > 0} />
+
+                <AnimatePresence>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ y: 0 }} transition={{ duration: 0.6, delay: 0.2, ease: 'backInOut' }}>
+                        <TaskInput title={title} status={status} ref={inputRef} onTitleChange={setTitle} onStatusChange={setStatus} onAddTask={addTask} hasTasks={currentTasks.length > 0} />
+                    </motion.div>
+                </AnimatePresence>
             </div>
             <div>
                 <Footer />
