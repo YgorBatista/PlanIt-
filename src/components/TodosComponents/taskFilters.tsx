@@ -17,7 +17,7 @@ export function TaskFilters({ filterStatus, pendenteTasks, concluidoTasks, fazen
                 className={` flex-col rounded-sm  justify-around items-center flex-1 transition-all duration-300 delay-0 max-w-80  h-20 sm:h-28 ${
                     filterStatus === 'pendente'
                         ? 'bg-[#7C2D12] dark:bg-[#334e6b] hover:dark:bg-[#41658b] hover:bg-[#983311] scale-110 text-white delay-0'
-                        : 'bg-[#ffcebc] hover:bg-[#f6bda8] dark:bg-[#243649] hover:dark:bg-[#41658b]  text-neutral-600'
+                        : 'bg-[#f6b39b] hover:bg-[#f6bda8] dark:bg-[#243649] hover:dark:bg-[#41658b]  text-neutral-600'
                 } `}
             >
                 <span className="text-xs sm:text-sm font-bold">Pendente</span>{' '}

@@ -43,7 +43,7 @@ export const TaskInput = forwardRef<HTMLInputElement, TaskInputProps>(({ title, 
                         <SelectTrigger className="w-[100px] rounded-md h-8 text-[11px] xs:text-sm font-bold border border-neutral-300  bg-gray-200 dark:bg-[#4e749c]  text-black dark:text-neutral-200 dark:hover:text-black hover:bg-gray-500 dark:hover:bg-[#9bb8d6] hover:font-bold  hover:text-white transition-all duration-00  ">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-300 dark:bg-[#4e749c]">
+                        <SelectContent className="bg-gray-300  dark:bg-[#4e749c]">
                             <SelectGroup>
                                 <SelectItem value="pendente">Pendente</SelectItem>
                                 <SelectItem value="concluido">Concluído</SelectItem>

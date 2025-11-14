@@ -6,7 +6,7 @@ export type TaskItem = {
   id: string;
   title: string;
   status: string;
-  editing: boolean;
+ 
 };
 
 export function useTasks() {
@@ -46,25 +46,23 @@ export function useTasks() {
     localStorage.setItem(storageKey, JSON.stringify(tasks));
   }, [tasks, storageKey]);
 
-  // foco automático
-  useEffect(() => {
-    if (!tasks.some(t => t.editing) && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [tasks]);
 
+
+  // ADICIONAR UMA TAREFA 
 const addTask = () => {
   // Rejeita titles vazios ou compostos apenas por espaços
   const trimmedTitle = title.trim();
   if (!trimmedTitle || !status) return;
 
+
+  // Gera um ID único baseado na data e hora atuais
   const now = new Date();
   const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second:'2-digit' });
   const dia = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
   const id = `${dia} - ${hora}`;
 
   // Use o título 'trimado' para evitar tarefas com apenas espaços
-  const newTask = { id, title: trimmedTitle, status, editing: false };
+  const newTask = { id, title: trimmedTitle, status};
   setTasks(prev => [newTask, ...prev]);
 
   // Limpa campos

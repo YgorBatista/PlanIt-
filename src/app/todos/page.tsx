@@ -7,7 +7,6 @@ import { usePagination } from '../hooks/usePagination';
 import { TaskCard } from '@/components/TodosComponents/TaskCard';
 import NameUser from './NameUser';
 import { motion, AnimatePresence } from 'framer-motion';
-
 import { TaskFilters } from '@/components/TodosComponents/taskFilters';
 import { TaskInput } from '@/components/TodosComponents/TaskInput';
 import TaskPagination from '@/components/TodosComponents/TaskPagination';
@@ -49,7 +48,7 @@ const Page = () => {
     };
 
     return (
-        <div className="w-screen min-h-screen  bg-gray-200 dark:bg-[#1b2632] flex flex-col sm:justify-between transition-colors duration-500">
+        <div className="w-full min-h-screen  bg-gray-200 dark:bg-[#1b2632] flex flex-col sm:justify-between transition-colors duration-500">
             <Header />
             <div className="flex h-5/6 flex-1 px-2 container mx-auto flex-col w-screen justify-between">
                 <div className="sm:py-8 mb-8">

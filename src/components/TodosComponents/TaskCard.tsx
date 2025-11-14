@@ -7,7 +7,6 @@ import { useIsMounted } from '@/app/hooks/useIsMounted';
 import { SelectCard } from './TaskSelectCard';
 import { ModalTask } from './ModalTask';
 import { useTaskEdit } from '@/app/hooks/useTaskEdit';
-import { useOutsideClick } from '@/app/hooks/useOutsideClick';
 
 type TaskCardProps = {
     task: TaskItem;
@@ -17,7 +16,7 @@ type TaskCardProps = {
 };
 
 export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardProps) {
-    const { tempText, setTempText, tempStatus, setTempStatus, isEditing, setIsEditing, isInlineEditing, setIsInlineEditing, handleSave, cancelInlineEdit, cardRef } = useTaskEdit(task, onUpdate);
+    const { tempText, setTempText, tempStatus, setTempStatus, isEditing, setIsEditing, handleSave, cardRef } = useTaskEdit(task, onUpdate);
 
     const mounted = useIsMounted();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -38,9 +37,6 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
     };
 
     // useOutsideClick: cancela edição inline quando clicar fora do card
-    useOutsideClick(cardRef, () => {
-        if (isInlineEditing) cancelInlineEdit();
-    });
 
     return (
         <div
@@ -67,36 +63,20 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
                 <div className="flex gap-2  items-center">
                     {/* Esconde Editar/Salvar/Cancelar se tiver "Ver completo" */}
                     {task.title.length <= 90 && (
-                        <>
-                            {task.editing ? (
-                                <>
-                                    <Button
-                                        className=" w-12 xs:w-24 h-6 xs:h-9 bg-[#a38760] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#6d542e] font-bold"
-                                        onClick={() => {
-                                            onUpdate({ ...task, title: tempText, status: tempStatus, editing: false });
-                                            setIsInlineEditing(false);
-                                        }}
-                                    >
-                                        Salvar
-                                    </Button>
-                                </>
-                            ) : (
-                                <Button
-                                    className="w-12  xs:w-16 h-6 xs:h-9 bg-[#7ca0c7] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#7da7d4] font-bold"
-                                    onClick={() => {
-                                        // Open modal directly in edit mode instead of inline edit
-                                        setTempText(task.title);
-                                        setTempStatus(task.status);
-                                        setIsInlineEditing(false);
-                                        setIsDialogOpen(true);
-                                        setIsEditing(true);
-                                    }}
-                                >
-                                    Editar
-                                </Button>
-                            )}
-                        </>
-                    )}{' '}
+                        <Button
+                            className="w-12  xs:w-16 h-6 xs:h-9 bg-[#7ca0c7] dark:bg-[#1b2632] hover:scale-105 transition-all text-[9px] xs:text-xs hover:bg-[#7da7d4] font-bold"
+                            onClick={() => {
+                                // Open modal directly in edit mode instead of inline edit
+                                setTempText(task.title);
+                                setTempStatus(task.status);
+                                setIsDialogOpen(true);
+                                setIsEditing(true);
+                            }}
+                        >
+                            Editar
+                        </Button>
+                    )}
+
                     {/* Botão Ver completo */}
                     {task.title.length > 90 && (
                         <Button
@@ -115,12 +95,7 @@ export function TaskCard({ task, onUpdate, onDelete, getStatusColor }: TaskCardP
             </div>
 
             <div className="flex flex-col justify-evenly items-center gap-2">
-                <SelectCard
-                    value={isInlineEditing || isEditing ? tempStatus : task.status}
-                    disabled={!(isInlineEditing || isEditing)}
-                    onChange={val => (isInlineEditing || isEditing) && setTempStatus(val)}
-                    getStatusColor={getStatusColor}
-                />
+                <SelectCard value={isEditing ? tempStatus : task.status} disabled={!isEditing} onChange={val => isEditing && setTempStatus(val)} getStatusColor={getStatusColor} />
                 <p className="text-neutral-500 dark:text-neutral-400 text-[8px] xs:text-xs" suppressHydrationWarning>
                     {mounted ? task.id : null}
                 </p>
