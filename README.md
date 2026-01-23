@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PlanIt - To-Do List App
 
-## Getting Started
+PlanIt é uma aplicação web de lista de tarefas (to-do list) desenvolvida para ajudar usuários a organizar e gerenciar suas tarefas diárias de forma eficiente. Com uma interface intuitiva e responsiva, permite criar, editar, remover e concluir tarefas, além de oferecer autenticação via provedores como GitHub e Google.
 
-First, run the development server:
+### 🔗 Demo: https://plan-it-rose.vercel.app
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🧠 Motivação
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+PlanIt foi desenvolvido com foco na aplicação de boas práticas de desenvolvimento front-end, como gerenciamento de estado, autenticação e organização de código, em um contexto prático.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📌 Pré-requisitos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Antes de executar o projeto, certifique-se de ter instalado:
 
-## Learn More
+- Node.js (versão 18 ou superior)
+- npm
+- Conta no GitHub e/ou Google para autenticação (opcional, mas recomendado para testar login)
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Funcionalidades
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Autenticação:** login com GitHub e Google utilizando NextAuth
+- **Gerenciamento de tarefas:** criar, editar, excluir e marcar tarefas como concluídas
+- **Filtros e pesquisa:** filtrar tarefas por status
+- **Paginação:** navegação entre listas de tarefas quando há muitos registros
+- **Tema dinâmico:** alternância entre tema claro e escuro
+- **Interface responsiva:** adaptação para desktop e dispositivos móveis
+- **Modal de edição:** edição de tarefas em um modal dedicado
+- **Persistência de dados:** armazenamento das tarefas no localStorage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📚 Aprendizados
 
-## Deploy on Vercel
+Durante o desenvolvimento, foram aplicados e aprendidos os seguintes conceitos:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Uso de React Hooks como useState e useEffect
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Estrutura básica do Next.js (App Router)
+
+- Criação de componentes reutilizáveis
+
+- Autenticação com NextAuth
+
+- Estilização com Tailwind CSS
+
+- Organização de pastas e separação de responsabilidades
+
+- Uso básico de TypeScript para tipagem
+
+## 🧩 Tecnologias Utilizadas
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- NextAuth.js
+- Shadcn/ui (baseado em Radix UI)
+- Lucide React
+- Middleware para proteção de rotas
+
+## ⚙️ Instalação e Execução
+
+1. Clone o repositório:
+
+    ```
+    git clone https://github.com/seu-usuario/planit.git
+    ```
+
+2. No terminal, vá até a pasta:
+    ```
+    cd planit
+    ```
+3. Instale as dependências:
+
+    ```
+    npm install
+    ```
+
+4. Execute o projeto em modo de desenvolvimento:
+
+    ```
+    npm run dev
+    ```
+
+5. Copie a URL para o seu navegador:
+    ```
+    http://localhost:3000
+    ```
+
+## 🔐 Variáveis de Ambiente
+
+Este projeto utiliza variáveis de ambiente para configurar a autenticação com **NextAuth.js**.
+
+Por motivos de segurança, o arquivo `.env` **não é versionado**.
+
+## Observação
+
+Este é um projeto de estudo e aprendizado. Melhorias futuras podem incluir testes automatizados, integração com banco de dados e refinamento da experiência do usuário.

@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { TaskItem } from '@/app/hooks/useTasks';
 import { SelectCard } from './TaskSelectCard';
-import { set } from 'zod';
 
 type ModalTaskProps = {
     isOpen: boolean;
