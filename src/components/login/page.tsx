@@ -4,15 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Header from '../base/header';
-import Footer from '../base/footer';
-import { GoogleBtn } from '../../components/LoginBtn/GoogleBtn';
+import Header from '../../app/base/header';
+import Footer from '../../app/base/footer';
+import { GoogleBtn } from '../LoginBtn/GoogleBtn';
 import { useTasks } from '@/app/hooks/useTasks';
 import { motion } from 'framer-motion';
-import { GitHubBtn } from '../../components/LoginBtn/GitHubBtn';
+import { GitHubBtn } from '../LoginBtn/GitHubBtn';
 
 const formSchema = z.object({
-    name: z.string().min(2, 'O nome deve ter mais de 2 caracteres').max(20, 'O nome deve ter no  máximo 20 caracteres.'),
+    name: z.string().min(2, 'O nome deve ter mais de 2 caracteres').max(20, 'O nome dev ter no  máximo 20 caracteres.'),
     email: z.string().email('Formato inválido').min(1).max(50),
     password: z
         .string()
@@ -145,6 +145,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+
             <Footer />
         </div>
     );

@@ -6,7 +6,7 @@ const Footer = () => {
             <a className="flex items-center gap-0.5 px-3 py-1 rounded-md hover:gap-3 group transition-all duration-300" href="https://github.com/YgorBatista">
                 <span>feito por</span>
                 <Image
-                    src="/img/github-icon.png"
+                    src="/github-icon.png"
                     alt="GitHub Icon"
                     width={32}
                     height={32}
