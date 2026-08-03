@@ -6,13 +6,17 @@ import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
+type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    icon?: React.ReactNode;
+    hideValue?: boolean;
+};
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
-const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigger>, React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>>(({ className, children, ...props }, ref) => (
+const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(({ className, children, icon, hideValue = false, ...props }, ref) => (
     <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
@@ -21,7 +25,9 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
         )}
         {...props}
     >
-        {children}
+        {!hideValue && children}
+
+        {icon && <span>{icon}</span>}
     </SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
