@@ -9,5 +9,5 @@ export default function Home() {
         redirect('/login');
     }
 
-    redirect('/todos');
+    redirect('/dashboard');
 }
